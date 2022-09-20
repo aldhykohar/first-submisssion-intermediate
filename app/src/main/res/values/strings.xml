@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Story</string>
+    <string name="image_login">Image Login</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
+    <string name="input_email_and_password">Input email and password to login</string>
+</resources>
