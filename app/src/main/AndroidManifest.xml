@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.aldhykohar.first_submission_intermediate">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,10 +16,10 @@
         android:theme="@style/Theme.First_submission_intermediate"
         tools:targetApi="31">
         <activity
-            android:name=".view.register.RegisterActivity"
+            android:name="com.aldhykohar.first_submission_intermediate.view.auth.register.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".view.login.LoginActivity"
+            android:name="com.aldhykohar.first_submission_intermediate.view.auth.login.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
