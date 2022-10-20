@@ -27,11 +27,11 @@ https://hacktoberfest.digitalocean.com/</p>
 * Fork the repository (Click the Fork button in the top right of this page, click your Profile Image)
 * Clone the forked repository to your local machine.
 ```markdown
-git clone https://github.com/aldhykohar/android-tracker-location-gmaps.git
+git clone git@github.com:aldhykohar/first-submisssion-intermediate.git
 ```
 * change the present working directory
 ```markdown
-cd android-tracker-location-gmaps
+cd first-submisssion-intermediate
 ```
 * Add/Create your project to the specific folder as described in what you can contribute section.
 * Make a new branch
