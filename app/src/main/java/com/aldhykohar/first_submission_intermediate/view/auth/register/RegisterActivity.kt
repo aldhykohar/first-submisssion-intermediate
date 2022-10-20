@@ -24,7 +24,7 @@ class RegisterActivity : BaseActivity<ActivityRegisterBinding>() {
 
     private fun initClick() {
         with(binding) {
-            floatingActionButton.setOnClickListener { onBackPressedDispatcher }
+            floatingActionButton.setOnClickListener { onBackPress() }
             registerMB.setOnClickListener {
                 val name = nameEditText.text.toString()
                 val email = emailEditText.text.toString()

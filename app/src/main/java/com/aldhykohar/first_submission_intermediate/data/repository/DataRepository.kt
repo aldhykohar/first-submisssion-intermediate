@@ -1,6 +1,7 @@
 package com.aldhykohar.first_submission_intermediate.data.repository
 
 import com.aldhykohar.first_submission_intermediate.base.BaseRepository
+import com.aldhykohar.first_submission_intermediate.data.model.login.LoginRequest
 import com.aldhykohar.first_submission_intermediate.data.model.register.RegisterRequest
 
 
@@ -10,4 +11,6 @@ import com.aldhykohar.first_submission_intermediate.data.model.register.Register
 class DataRepository : BaseRepository() {
 
     suspend fun register(request: RegisterRequest) = safeApiCall { apiService.register(request) }
+
+    suspend fun login(request: LoginRequest) = safeApiCall { apiService.login(request) }
 }

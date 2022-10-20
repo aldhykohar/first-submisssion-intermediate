@@ -4,6 +4,7 @@ import android.app.ProgressDialog
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.viewbinding.ViewBinding
@@ -33,7 +34,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
+        onBackPress()
         return super.onSupportNavigateUp()
     }
 
@@ -49,8 +50,8 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
+    fun onBackPress() {
+        finish()
     }
 
     protected fun handleError(failure: ResponseBody?) {
