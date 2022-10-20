@@ -87,7 +87,7 @@ class MyCustomInputText : AppCompatEditText, View.OnTouchListener {
     }
 
     fun setError() {
-        error = "Kurang ii"
+        error = "Password must be 6 length"
     }
 
     override fun onTouch(v: View?, event: MotionEvent): Boolean {
