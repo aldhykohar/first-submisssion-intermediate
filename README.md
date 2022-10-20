@@ -1,6 +1,6 @@
 # ✨ hacktoberfest2022 💫
 
-![banner](https://www.google.com/url?sa=i&url=https%3A%2F%2Fmobile.twitter.com%2Fhacktoberfest&psig=AOvVaw1ZvBZ1RyyU_bdbwuHd4v-K&ust=1666361486722000&source=images&cd=vfe&ved=0CA0QjRxqFwoTCLjDkrb-7voCFQAAAAAdAAAAABAE)
+![banner](https://pbs.twimg.com/profile_banners/1040669393255055360/1662652901/1500x500)
 
 ## 🌱 Contributing to hacktoberfest 2022
 
