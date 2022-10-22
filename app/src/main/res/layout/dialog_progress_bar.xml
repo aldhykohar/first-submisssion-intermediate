@@ -17,6 +17,7 @@
             android:id="@+id/spin_kit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:theme="@style/ProgressBarStyle"
             android:layout_gravity="center" />
 
         <TextView

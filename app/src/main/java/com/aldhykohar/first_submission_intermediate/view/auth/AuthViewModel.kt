@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aldhykohar.first_submission_intermediate.data.local.DataStoreManager
 import com.aldhykohar.first_submission_intermediate.data.model.SuccessResponse
 import com.aldhykohar.first_submission_intermediate.data.model.login.LoginRequest
 import com.aldhykohar.first_submission_intermediate.data.model.login.LoginResponse
@@ -17,7 +18,7 @@ import kotlinx.coroutines.launch
  * Created by aldhykohar on 10/16/2022.
  */
 class AuthViewModel : ViewModel() {
-    var repository: DataRepository = DataRepository()
+    private var repository: DataRepository = DataRepository()
 
     private val _registerResponse: MutableLiveData<DataResource<SuccessResponse>> =
         MutableLiveData()

@@ -8,6 +8,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.viewbinding.ViewBinding
+import com.aldhykohar.first_submission_intermediate.data.local.DataStoreManager
 import com.aldhykohar.first_submission_intermediate.data.model.SuccessResponse
 import com.aldhykohar.first_submission_intermediate.data.network.DataResource
 import com.aldhykohar.first_submission_intermediate.utils.CustomDialogBar
@@ -23,11 +24,13 @@ import okhttp3.ResponseBody
 abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     lateinit var binding: VB
     private var progressDialog: CustomDialogBar? = null
+    var dataStore: DataStoreManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = getViewBinding()
         progressDialog = CustomDialogBar()
+        dataStore = DataStoreManager(this)
         setContentView(binding.root)
         initView()
         initObservers()

@@ -51,4 +51,7 @@
     <style name="CustomDialogTheme">
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
+    <style name="ProgressBarStyle">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
 </resources>
