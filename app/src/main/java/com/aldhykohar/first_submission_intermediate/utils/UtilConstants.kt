@@ -6,7 +6,7 @@ package com.aldhykohar.first_submission_intermediate.utils
 
 object UtilConstants {
     // STRING
-    const val SHARED_PREF_NAME = "nearby_pref"
+    const val DATA_STORE_NAME = "STORY_DATA_STORE"
     const val LOG_MESSAGE = "LOG_MESSAGE"
     const val NO_INTERNET = "NO_INTERNET"
 

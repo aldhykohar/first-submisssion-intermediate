@@ -1,5 +1,6 @@
 package com.aldhykohar.first_submission_intermediate.view.auth.login
 
+import android.util.Log
 import androidx.activity.viewModels
 import com.aldhykohar.first_submission_intermediate.R
 import com.aldhykohar.first_submission_intermediate.base.BaseActivity
@@ -7,12 +8,17 @@ import com.aldhykohar.first_submission_intermediate.data.model.login.LoginReques
 import com.aldhykohar.first_submission_intermediate.data.model.login.LoginResponse
 import com.aldhykohar.first_submission_intermediate.data.network.DataResource
 import com.aldhykohar.first_submission_intermediate.databinding.ActivityLoginBinding
+import com.aldhykohar.first_submission_intermediate.utils.UtilCoroutines
 import com.aldhykohar.first_submission_intermediate.utils.UtilExtensions.myError
-import com.aldhykohar.first_submission_intermediate.utils.UtilExtensions.myToast
 import com.aldhykohar.first_submission_intermediate.utils.UtilExtensions.openActivity
 import com.aldhykohar.first_submission_intermediate.view.auth.AuthViewModel
 import com.aldhykohar.first_submission_intermediate.view.auth.register.RegisterActivity
 import com.aldhykohar.first_submission_intermediate.view.home.HomeActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.single
 
 class LoginActivity : BaseActivity<ActivityLoginBinding>() {
     private val viewModel by viewModels<AuthViewModel>()
@@ -39,6 +45,9 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
     }
 
     override fun initObservers() {
+        UtilCoroutines.main {
+            Log.e("TAG", "initObservers: " + dataStore?.getIsLogin?.first())
+        }
         viewModel.loginResponse.observe(this) {
             when (it) {
                 is DataResource.Loading -> showLoading(true)
@@ -51,6 +60,10 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
     private fun updateUI(value: LoginResponse) {
         showLoading(false)
         if (value.error == false) {
+            UtilCoroutines.io {
+                dataStore?.setIsLogin(true)
+                value.loginResult?.let { dataStore?.setDataUser(it) }
+            }
             openActivity(HomeActivity::class.java)
         } else {
             myError(value.message ?: "")

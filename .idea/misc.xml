@@ -5,8 +5,10 @@
       <map>
         <entry key="..\:/DATA ALDI/Android/Learn/Android Intermediate/first_submission_intermediate/app/src/main/res/drawable/ic_baseline_email_24.xml" value="0.192" />
         <entry key="..\:/DATA ALDI/Android/Learn/Android Intermediate/first_submission_intermediate/app/src/main/res/drawable/ic_close.xml" value="0.192" />
+        <entry key="..\:/DATA ALDI/Android/Learn/Android Intermediate/first_submission_intermediate/app/src/main/res/layout/activity_home.xml" value="0.18385416666666668" />
         <entry key="..\:/DATA ALDI/Android/Learn/Android Intermediate/first_submission_intermediate/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/DATA ALDI/Android/Learn/Android Intermediate/first_submission_intermediate/app/src/main/res/layout/activity_register.xml" value="0.2" />
+        <entry key="..\:/DATA ALDI/Android/Learn/Android Intermediate/first_submission_intermediate/app/src/main/res/layout/activity_splash_screen.xml" value="0.18385416666666668" />
         <entry key="..\:/DATA ALDI/Android/Learn/Android Intermediate/first_submission_intermediate/app/src/main/res/layout/dialog_progress_bar.xml" value="0.18385416666666668" />
       </map>
     </option>
