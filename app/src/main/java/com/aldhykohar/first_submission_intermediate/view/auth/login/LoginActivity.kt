@@ -65,6 +65,7 @@ class LoginActivity : BaseActivity<ActivityLoginBinding>() {
                 value.loginResult?.let { dataStore?.setDataUser(it) }
             }
             openActivity(HomeActivity::class.java)
+            finish()
         } else {
             myError(value.message ?: "")
         }

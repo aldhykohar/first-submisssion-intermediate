@@ -24,6 +24,7 @@ class SplashScreenActivity : BaseActivity<ActivitySplashScreenBinding>() {
         UtilCoroutines.main {
             delay(2000)
             openActivity(if (dataStore?.getIsLogin?.first() == true) HomeActivity::class.java else LoginActivity::class.java)
+            finish()
         }
     }
 }
