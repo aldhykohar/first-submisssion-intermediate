@@ -1,7 +1,12 @@
 package com.aldhykohar.first_submission_intermediate.view.home
 
+import android.app.Activity
+import android.content.Intent
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.annotation.NonNull
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import com.aldhykohar.first_submission_intermediate.base.BaseActivity
 import com.aldhykohar.first_submission_intermediate.data.model.list_story.ListStoryRequest
@@ -25,9 +30,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
     private var currentPage = 1
 
     private val adapterStory by lazy {
-        ListStoryAdapter {
-            myToast(it)
-        }
+        ListStoryAdapter()
     }
 
     override fun getViewBinding() = ActivityHomeBinding.inflate(layoutInflater)
@@ -84,7 +87,6 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             openActivity(LoginActivity::class.java)
             finish()
         }
-
     }
 
     override fun initObservers() {

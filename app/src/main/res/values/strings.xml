@@ -22,4 +22,7 @@
     <string name="gallery">Gallery</string>
     <string name="image">image</string>
     <string name="please_upload_image">Please upload image</string>
+    <string name="posted_by">Posted by</string>
+    <string name="description">Description</string>
+    <string name="detail_story">Detail Story</string>
 </resources>

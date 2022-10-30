@@ -29,7 +29,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = getViewBinding()
-        progressDialog = CustomDialogBar()
+        progressDialog = CustomDialogBar(this)
         dataStore = DataStoreManager(this)
         setContentView(binding.root)
         initView()
@@ -72,7 +72,7 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     }
 
     protected fun showLoading(isShown: Boolean) {
-        if (isShown) progressDialog?.showProgress(this)
+        if (isShown) progressDialog?.showProgress()
         else progressDialog?.hide()
     }
 

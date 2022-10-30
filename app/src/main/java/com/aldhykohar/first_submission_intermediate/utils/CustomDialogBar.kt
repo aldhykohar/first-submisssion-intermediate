@@ -8,16 +8,18 @@ import com.aldhykohar.first_submission_intermediate.R
 /**
  * Created by aldhykohar on 3/26/2021.
  */
-class CustomDialogBar {
+class CustomDialogBar(context: Context) {
 
     lateinit var dialog: CustomDialog
 
-
-    fun showProgress(context: Context): Dialog {
+    init {
         dialog = CustomDialog(context)
         dialog.setContentView(R.layout.dialog_progress_bar)
+    }
+
+
+    fun showProgress() {
         dialog.show()
-        return dialog
     }
 
     fun hide() {
