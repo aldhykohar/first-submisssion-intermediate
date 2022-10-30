@@ -93,7 +93,7 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         viewModel.getStory(ListStoryRequest(currentPage, currentSize))
         viewModel.storyResponse.observe(this) {
             when (it) {
-                is DataResource.Loading -> if (currentPage == 1) showLoading(true)
+                is DataResource.Loading -> if (currentPage == 1) Log.e("TAG", "LOADING")
                 is DataResource.Success -> updateUI(it.value)
                 is DataResource.Error -> handleError(it.errorBody)
             }
@@ -113,5 +113,11 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
         if (value.listStory?.isNotEmpty() == true) currentPage += 1
         binding.loadingIndicator.isAreVisible(false)
         value.listStory?.let { adapterStory.setData(it) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        currentPage = 1
+        adapterStory.clearData()
     }
 }
