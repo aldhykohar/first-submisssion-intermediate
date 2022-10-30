@@ -1,5 +1,7 @@
 package com.aldhykohar.first_submission_intermediate.utils
 
+import android.Manifest
+
 /**
  * Created by aldhykohar on 10/16/2022.
  */
@@ -16,14 +18,8 @@ object UtilConstants {
     const val ZERO_DATA = 0
     const val CODE_SUCCESS = 200
 
-    // API
-    const val PATH_API_KEY = "api_key"
-    const val PATH_DEFAULT_LANG = "language"
-    const val DEFAULT_LANG = "en-US"
-    const val DB_NAME = "nearby.db"
-    const val DB_VERSION = 1
-
-    //image options
-    const val IMAGE_SIZE_512 = 512
-    const val IMAGE_DIMEN_640 = 640
+    const val CAMERA_X_RESULT = 200
+    val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
+    const val REQUEST_CODE_PERMISSIONS = 10
+    const val FILENAME_FORMAT = "dd-MMM-yyyy"
 }

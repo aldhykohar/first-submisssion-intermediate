@@ -13,6 +13,7 @@ import com.aldhykohar.first_submission_intermediate.utils.UtilExtensions.isAreVi
 import com.aldhykohar.first_submission_intermediate.utils.UtilExtensions.myError
 import com.aldhykohar.first_submission_intermediate.utils.UtilExtensions.myToast
 import com.aldhykohar.first_submission_intermediate.utils.UtilExtensions.openActivity
+import com.aldhykohar.first_submission_intermediate.view.add_story.AddStoryActivity
 import com.aldhykohar.first_submission_intermediate.view.auth.login.LoginActivity
 import kotlinx.coroutines.delay
 
@@ -51,6 +52,8 @@ class HomeActivity : BaseActivity<ActivityHomeBinding>() {
             logoutIV.setOnClickListener {
                 logout()
             }
+
+            addFAB.setOnClickListener { openActivity(AddStoryActivity::class.java) }
 
             storyRV.addOnScrollListener(object :
                 RecyclerView.OnScrollListener() {

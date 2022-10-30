@@ -1,18 +1,23 @@
 package com.aldhykohar.first_submission_intermediate.utils
 
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.graphics.Paint
-import android.os.Build
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
-import android.text.Html
-import android.text.SpannableString
-import android.text.Spanned
+import android.os.Environment
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import com.aldhykohar.first_submission_intermediate.utils.UtilConstants.FILENAME_FORMAT
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import java.io.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 object UtilExtensions {
@@ -34,35 +39,51 @@ object UtilExtensions {
         Toast.makeText(this, "ERROR : $message", Toast.LENGTH_LONG).show()
     }
 
-    fun EditText.setTextEditable(text: String) {
-        this.text = Editable.Factory.getInstance().newEditable(text)
+    fun Context.allPermissionsGranted() = UtilConstants.REQUIRED_PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
     }
 
-    fun TextView.setPaintFlag() {
-        this.paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+    fun String?.toRequestBody(): RequestBody {
+        return RequestBody.create("text/plain".toMediaTypeOrNull(), this ?: "")
     }
 
-    fun String.getAlphabetQuestionImage(): String {
-        if (this.isEmpty()) return this
-        return this.substring(0, 2)
+    private val timeStamp: String = SimpleDateFormat(
+        FILENAME_FORMAT,
+        Locale.US
+    ).format(System.currentTimeMillis())
+
+    fun createTempFile(context: Context): File {
+        val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(timeStamp, ".jpg", storageDir)
     }
 
-    fun String.getQuestionImageTitle(): String {
-        if (this.isEmpty()) return this
-        return this.substring(3, this.length)
+    fun uriToFile(selectedImg: Uri, context: Context): File {
+        val contentResolver: ContentResolver = context.contentResolver
+        val myFile = createTempFile(context)
+
+        val inputStream = contentResolver.openInputStream(selectedImg) as InputStream
+        val outputStream: OutputStream = FileOutputStream(myFile)
+        val buf = ByteArray(1024)
+        var len: Int
+        while (inputStream.read(buf).also { len = it } > 0) outputStream.write(buf, 0, len)
+        outputStream.close()
+        inputStream.close()
+
+        return myFile
     }
 
-    fun String?.toSpanned(): Spanned {
-        return when {
-            this == null -> SpannableString("")
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> Html.fromHtml(
-                this,
-                Html.FROM_HTML_MODE_LEGACY
-            )
-            else -> {
-                @Suppress("DEPRECATION")
-                return Html.fromHtml(this)
-            }
-        }
+    fun reduceFileImage(file: File): File {
+        val bitmap = BitmapFactory.decodeFile(file.path)
+        var compressQuality = 100
+        var streamLength: Int
+        do {
+            val bmpStream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, bmpStream)
+            val bmpPicByteArray = bmpStream.toByteArray()
+            streamLength = bmpPicByteArray.size
+            compressQuality -= 5
+        } while (streamLength > 1000000)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, compressQuality, FileOutputStream(file))
+        return file
     }
 }
