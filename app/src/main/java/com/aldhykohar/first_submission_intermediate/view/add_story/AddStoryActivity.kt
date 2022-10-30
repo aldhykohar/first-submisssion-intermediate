@@ -11,25 +11,36 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import com.aldhykohar.first_submission_intermediate.R
 import com.aldhykohar.first_submission_intermediate.base.BaseActivity
+import com.aldhykohar.first_submission_intermediate.data.model.SuccessResponse
+import com.aldhykohar.first_submission_intermediate.data.network.DataResource
 import com.aldhykohar.first_submission_intermediate.databinding.ActivityAddStoryBinding
 import com.aldhykohar.first_submission_intermediate.databinding.DialogUploadImageBinding
 import com.aldhykohar.first_submission_intermediate.utils.UtilConstants.REQUEST_CODE_PERMISSIONS
 import com.aldhykohar.first_submission_intermediate.utils.UtilConstants.REQUIRED_PERMISSIONS
 import com.aldhykohar.first_submission_intermediate.utils.UtilExtensions.allPermissionsGranted
 import com.aldhykohar.first_submission_intermediate.utils.UtilExtensions.createTempFile
+import com.aldhykohar.first_submission_intermediate.utils.UtilExtensions.myError
+import com.aldhykohar.first_submission_intermediate.utils.UtilExtensions.myToast
+import com.aldhykohar.first_submission_intermediate.utils.UtilExtensions.reduceFileImage
 import com.aldhykohar.first_submission_intermediate.utils.UtilExtensions.uriToFile
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import java.io.File
 
 class AddStoryActivity : BaseActivity<ActivityAddStoryBinding>() {
 
+    private val viewModel by viewModels<AddStoryViewModel>()
+
     private lateinit var currentPhotoPath: String
 
-    private var getFile: File? = null
+    var image: MultipartBody.Part? = null
 
 
     override fun getViewBinding() = ActivityAddStoryBinding.inflate(layoutInflater)
@@ -53,7 +64,16 @@ class AddStoryActivity : BaseActivity<ActivityAddStoryBinding>() {
                 }
                 openDialogUploadImage()
             }
-            addMB.setOnClickListener { finish() }
+            addMB.setOnClickListener {
+                val desc = descriptionET.text.toString()
+                if (desc.isEmpty()) {
+                    descriptionET.error = getString(R.string.field_cannot_blank)
+                } else if (image == null) {
+                    myToast(getString(R.string.please_upload_image))
+                } else {
+                    viewModel.addStory(image!!, desc)
+                }
+            }
         }
     }
 
@@ -63,6 +83,23 @@ class AddStoryActivity : BaseActivity<ActivityAddStoryBinding>() {
     }
 
     override fun initObservers() {
+        viewModel.storyResponse.observe(this) {
+            when (it) {
+                is DataResource.Loading -> showLoading(true)
+                is DataResource.Success -> updateUI(it.value)
+                is DataResource.Error -> handleError(it.errorBody)
+            }
+        }
+    }
+
+    private fun updateUI(value: SuccessResponse) {
+        showLoading(false)
+        if (value.error == true) {
+            myError(value.message ?: "")
+            return
+        }
+        myToast(value.message ?: "")
+        finish()
     }
 
     fun openDialogUploadImage() {
@@ -113,7 +150,7 @@ class AddStoryActivity : BaseActivity<ActivityAddStoryBinding>() {
     ) {
         if (it.resultCode == RESULT_OK) {
             val myFile = File(currentPhotoPath)
-            getFile = myFile
+            setImageMultipart(myFile)
             val result = BitmapFactory.decodeFile(myFile.path)
 
             binding.imageIV.setImageBitmap(result)
@@ -146,9 +183,18 @@ class AddStoryActivity : BaseActivity<ActivityAddStoryBinding>() {
         if (result.resultCode == RESULT_OK) {
             val selectedImg: Uri = result.data?.data as Uri
             val myFile = uriToFile(selectedImg, this)
-            getFile = myFile
+            setImageMultipart(myFile)
             binding.imageIV.setImageURI(selectedImg)
         }
+    }
+
+    private fun setImageMultipart(file: File) {
+        val files = reduceFileImage(file)
+        val body = RequestBody.create(
+            "image/*".toMediaTypeOrNull(),
+            files
+        )
+        image = MultipartBody.Part.createFormData("photo", file.name, body)
     }
 
 }

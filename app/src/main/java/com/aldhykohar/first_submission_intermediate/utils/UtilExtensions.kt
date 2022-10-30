@@ -1,30 +1,20 @@
 package com.aldhykohar.first_submission_intermediate.utils
 
-import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Matrix
-import android.graphics.Paint
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.text.Editable
-import android.text.Html
-import android.text.SpannableString
-import android.text.Spanned
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.aldhykohar.first_submission_intermediate.R
 import com.aldhykohar.first_submission_intermediate.utils.UtilConstants.FILENAME_FORMAT
-import com.aldhykohar.first_submission_intermediate.view.add_story.AddStoryActivity
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -53,36 +43,8 @@ object UtilExtensions {
         ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
     }
 
-    fun EditText.setTextEditable(text: String) {
-        this.text = Editable.Factory.getInstance().newEditable(text)
-    }
-
-    fun TextView.setPaintFlag() {
-        this.paintFlags = paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-    }
-
-    fun String.getAlphabetQuestionImage(): String {
-        if (this.isEmpty()) return this
-        return this.substring(0, 2)
-    }
-
-    fun String.getQuestionImageTitle(): String {
-        if (this.isEmpty()) return this
-        return this.substring(3, this.length)
-    }
-
-    fun String?.toSpanned(): Spanned {
-        return when {
-            this == null -> SpannableString("")
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> Html.fromHtml(
-                this,
-                Html.FROM_HTML_MODE_LEGACY
-            )
-            else -> {
-                @Suppress("DEPRECATION")
-                return Html.fromHtml(this)
-            }
-        }
+    fun String?.toRequestBody(): RequestBody {
+        return RequestBody.create("text/plain".toMediaTypeOrNull(), this ?: "")
     }
 
     private val timeStamp: String = SimpleDateFormat(
@@ -93,46 +55,6 @@ object UtilExtensions {
     fun createTempFile(context: Context): File {
         val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(timeStamp, ".jpg", storageDir)
-    }
-
-    fun createFile(application: Application): File {
-        val mediaDir = application.externalMediaDirs.firstOrNull()?.let {
-            File(it, application.resources.getString(R.string.app_name)).apply { mkdirs() }
-        }
-
-        val outputDirectory = if (
-            mediaDir != null && mediaDir.exists()
-        ) mediaDir else application.filesDir
-
-        return File(outputDirectory, "$timeStamp.jpg")
-    }
-
-    fun rotateBitmap(bitmap: Bitmap, isBackCamera: Boolean = false): Bitmap {
-        val matrix = Matrix()
-        return if (isBackCamera) {
-//        matrix.postRotate(90f)
-            Bitmap.createBitmap(
-                bitmap,
-                0,
-                0,
-                bitmap.width,
-                bitmap.height,
-                matrix,
-                true
-            )
-        } else {
-//        matrix.postRotate(-90f)
-            matrix.postScale(-1f, 1f, bitmap.width / 2f, bitmap.height / 2f)
-            Bitmap.createBitmap(
-                bitmap,
-                0,
-                0,
-                bitmap.width,
-                bitmap.height,
-                matrix,
-                true
-            )
-        }
     }
 
     fun uriToFile(selectedImg: Uri, context: Context): File {
