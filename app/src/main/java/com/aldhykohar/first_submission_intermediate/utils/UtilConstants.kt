@@ -22,4 +22,5 @@ object UtilConstants {
     val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     const val REQUEST_CODE_PERMISSIONS = 10
     const val FILENAME_FORMAT = "dd-MMM-yyyy"
+    const val DETAIL = "DETAIL"
 }
