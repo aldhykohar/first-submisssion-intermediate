@@ -13,4 +13,12 @@
     <string name="your_story">Your Story</string>
     <string name="exit">exit</string>
     <string name="hello">Hello</string>
+    <string name="add">add</string>
+    <string name="add_image">Add Image</string>
+    <string name="description_image">Description Image</string>
+    <string name="add_story">Add Story</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="image">image</string>
 </resources>
